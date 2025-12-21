@@ -1,0 +1,3 @@
+-keep class com.ryanheise.just_audio_background.** { *; }
+-keep class com.ryanheise.audioservice.** { *; }
+-keep public class com.ryanheise.just_audio_background.AudioServiceActivity
