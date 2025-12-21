@@ -36,11 +36,15 @@ Future<void> main() async {
     androidNotificationChannelName: 'Audio playback',
     androidNotificationOngoing: true,
   );
-  runApp(const MyApp());
+  final prefs = await SharedPreferences.getInstance();
+  final player = AudioPlayer();
+  runApp(MyApp(prefs: prefs, player: player));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final SharedPreferences prefs;
+  final AudioPlayer player;
+  const MyApp({super.key, required this.prefs, required this.player});
 
   @override
   Widget build(BuildContext context) {
@@ -53,13 +57,15 @@ class MyApp extends StatelessWidget {
         ), // Islamic Green
         textTheme: GoogleFonts.poppinsTextTheme(),
       ),
-      home: const RadioHomePage(),
+      home: RadioHomePage(player: player, prefs: prefs),
     );
   }
 }
 
 class RadioHomePage extends StatefulWidget {
-  const RadioHomePage({super.key});
+  final AudioPlayer player;
+  final SharedPreferences prefs;
+  const RadioHomePage({super.key, required this.player, required this.prefs});
 
   @override
   State<RadioHomePage> createState() => _RadioHomePageState();
@@ -74,24 +80,25 @@ class _RadioHomePageState extends State<RadioHomePage> {
   @override
   void initState() {
     super.initState();
-    _player = AudioPlayer();
+    _player = widget.player;
     _loadSavedStation();
 
     // Listen to player state changes (playing/paused/loading)
     _player.playerStateStream.listen((state) {
-      setState(() {
-        _isPlaying = state.playing;
-        _isLoading =
-            state.processingState == ProcessingState.loading ||
-            state.processingState == ProcessingState.buffering;
-      });
+      if (mounted) {
+        setState(() {
+          _isPlaying = state.playing;
+          _isLoading =
+              state.processingState == ProcessingState.loading ||
+              state.processingState == ProcessingState.buffering;
+        });
+      }
     });
   }
 
   // Check if user has a saved language preference
   Future<void> _loadSavedStation() async {
-    final prefs = await SharedPreferences.getInstance();
-    final savedIndex = prefs.getInt('selected_station_index');
+    final savedIndex = widget.prefs.getInt('selected_station_index');
 
     if (savedIndex != null && savedIndex < stations.length) {
       setState(() {
@@ -109,8 +116,7 @@ class _RadioHomePageState extends State<RadioHomePage> {
     });
 
     // Save preference
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('selected_station_index', index);
+    await widget.prefs.setInt('selected_station_index', index);
 
     try {
       // Define the audio source with metadata for the lock screen
