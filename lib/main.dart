@@ -8,22 +8,22 @@ import 'package:google_fonts/google_fonts.dart';
 final List<Map<String, String>> stations = [
   {
     'lang': 'English',
-    'url': 'http://64.23.135.87/listen/quran_urdu/radio.mp3',
+    'url': 'https://64.23.135.87/listen/quran_urdu/radio.mp3',
     'id': '1',
   },
   {
     'lang': 'Urdu',
-    'url': 'http://64.23.135.87/listen/quran_urdu/radio.mp3',
+    'url': 'https://64.23.135.87/listen/quran_urdu/radio.mp3',
     'id': '2',
   },
   {
     'lang': 'Arabic',
-    'url': 'http://64.23.135.87/listen/quran_urdu/radio.mp3',
+    'url': 'https://64.23.135.87/listen/quran_urdu/radio.mp3',
     'id': '3',
   },
   {
     'lang': 'French',
-    'url': 'http://64.23.135.87/listen/quran_urdu/radio.mp3',
+    'url': 'https://64.23.135.87/listen/quran_urdu/radio.mp3',
     'id': '4',
   },
   // Add more languages here

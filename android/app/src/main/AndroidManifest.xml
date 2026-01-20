@@ -9,10 +9,11 @@
     <application
         android:label="quran_radio"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
-        
+        android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true">
+
         <activity
-            android:name="com.ryanheise.just_audio_background.AudioServiceActivity"
+            android:name="com.ryanheise.audioservice.AudioServiceActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
@@ -33,7 +34,7 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
-        <service android:name="com.ryanheise.just_audio_background.AudioService"
+        <service android:name="com.ryanheise.audioservice.AudioService"
             android:foregroundServiceType="mediaPlayback"
             android:exported="true">
             <intent-filter>
@@ -41,7 +42,7 @@
             </intent-filter>
         </service>
 
-        <receiver android:name="com.ryanheise.just_audio_background.MediaButtonReceiver"
+        <receiver android:name="com.ryanheise.audioservice.MediaButtonReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
